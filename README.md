@@ -29,7 +29,7 @@ All configuration is externalized in `fix-pihole.cfg`. If the file is missing, t
 - `TARGET_CONTAINER`: The name of the Pi-hole container to monitor (defaults to `pi-hole`).
 - `DOCKER_ROOT`: The root directory where Docker Compose stacks are located.
 - `COMPOSE_DIR`: The compose directory containing the Pi-hole stack.
-- `SEARCH_STRING`: The log warning string to search for (defaults to `WARNING: Connection error`).
+- `SEARCH_STRING`: The log warning string or regular expression pattern to search for (defaults to `WARNING: Connection error|ERROR: Cannot receive.*DNS reply: Timeout` to support both Pi-hole v5 and v6).
 - `MACVLAN_STRING`: The name of the network interface shared with dependent stacks (leave empty to disable dependent stack restarts).
 - `TEST_HOST`: External IP used to verify upstream connectivity.
 - `TEST_DOMAIN`: External domain used to verify DNS resolution.

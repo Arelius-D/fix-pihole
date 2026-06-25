@@ -4,7 +4,7 @@ set -u
 # CONFIGURATION LOAD & DEFAULTS
 SCRIPT_NAME="fix-pihole"
 SCRIPT_TITLE="Pi-hole Upstream Watchdog Service"
-CODE_VERSION="v3.0"
+CODE_VERSION="v3.1"
 SCRIPT_DIR=${SCRIPT_DIR:-"$(dirname "$(realpath "$0")")"}
 SCRIPT_FILE="$SCRIPT_DIR/$SCRIPT_NAME.sh"
 
@@ -29,8 +29,8 @@ DOCKER_ROOT="/home/$SCRIPT_OWNER/Docker"
 # The compose directory for Pi-hole.
 COMPOSE_DIR="/home/$SCRIPT_OWNER/Docker/pi-hole"
 
-# The connection error string to check in logs.
-SEARCH_STRING="WARNING: Connection error"
+# The connection error string to check in logs (supports regex).
+SEARCH_STRING="WARNING: Connection error|ERROR: Cannot receive.*DNS reply: Timeout"
 
 # The network interface string to find and restart dependent stacks.
 # Leave empty ("") if you do not use a macvlan or shared routing interface.
@@ -285,7 +285,7 @@ run_watchdog() {
             last_warn_time=0
 
             while read -r line; do
-                if [[ "$line" == *"$SEARCH_STRING"* ]]; then
+                if [[ "$line" =~ $SEARCH_STRING ]]; then
                     now=$(LC_ALL=C date +%s)
                     
                     if [ "$last_warn_time" -eq 0 ]; then
