@@ -4,7 +4,7 @@ set -u
 # CONFIGURATION LOAD & DEFAULTS
 SCRIPT_NAME="fix-pihole"
 SCRIPT_TITLE="Pi-hole Upstream Watchdog Service"
-CODE_VERSION="v3.1"
+CODE_VERSION="v3.2"
 SCRIPT_DIR=${SCRIPT_DIR:-"$(dirname "$(realpath "$0")")"}
 SCRIPT_FILE="$SCRIPT_DIR/$SCRIPT_NAME.sh"
 
@@ -290,7 +290,7 @@ run_watchdog() {
                     
                     if [ "$last_warn_time" -eq 0 ]; then
                         last_warn_time=$now
-                        log "$(date '+%Y-%m-%d %H:%M:%S') [WARN] Warning detected. Watching for recurrence within ${CONFIRM_WINDOW_SEC}s to confirm network drop..."
+                        log "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Warning detected. Watching for recurrence within ${CONFIRM_WINDOW_SEC}s to confirm network drop..."
                     else
                         diff=$((now - last_warn_time))
                         if [ "$diff" -le "$CONFIRM_WINDOW_SEC" ]; then
@@ -300,7 +300,7 @@ run_watchdog() {
                             last_warn_time=0
                         else
                             last_warn_time=$now
-                            log "$(date '+%Y-%m-%d %H:%M:%S') [WARN] Warning detected (previous was ${diff}s ago, outside ${CONFIRM_WINDOW_SEC}s window). Watching..."
+                            log "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Warning detected (previous was ${diff}s ago, outside ${CONFIRM_WINDOW_SEC}s window). Watching..."
                         fi
                     fi
                 fi
